@@ -7,6 +7,7 @@ const initialState = {
     phoneNumber: "",
   },
   cart: [],
+  orderHistory: [],
   paymentMethod: null,
   total: 0,
   cashReceived: 0,
@@ -39,7 +40,14 @@ const orderSlice = createSlice({
       state.total = action.payload;
     },
     confirmOrder: (state) => {
-      console.log("Order confirmed", state);
+      const order = {
+        customerInfo: state.customerInfo,
+        cart: state.cart,
+        total: state.total,
+        paymentMethod: state.paymentMethod,
+        date: new Date().toISOString(),
+      };
+      state.orderHistory.push(order);
       state.cart = [];
       state.customerInfo = { name: "", email: "", phoneNumber: "" };
       state.paymentMethod = null;

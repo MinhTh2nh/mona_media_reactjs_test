@@ -68,17 +68,17 @@ const CreateOrder = () => {
       const updatedCart = [...cart];
       const updatedItem = {
         ...updatedCart[index],
-        promotionCode: code, 
+        promotionCode: code,
       };
-      updatedCart[index] = updatedItem; 
+      updatedCart[index] = updatedItem;
       dispatch(updateCartItem({ index, field: "promotionCode", value: code }));
     } else {
       const updatedCart = [...cart];
       const updatedItem = {
         ...updatedCart[index],
-        promotionCode: "", 
+        promotionCode: "",
       };
-      updatedCart[index] = updatedItem; 
+      updatedCart[index] = updatedItem;
       dispatch(updateCartItem({ index, field: "promotionCode", value: "" }));
     }
     setSelectedPromotion(code);
@@ -86,13 +86,19 @@ const CreateOrder = () => {
 
   const handleConfirmOrder = (e) => {
     e.preventDefault();
-    if (cashReceived < total && paymentMethod === "cash") {
-      alert("Vui lòng nhập số tiền lớn hơn hoặc bằng hóa đơn");
+    if (!customerInfo.name || !customerInfo.email || !customerInfo.phoneNumber) {
+      alert("Vui lòng điền đầy đủ thông tin khách hàng.");
       return;
     }
+    if (cashReceived < total && paymentMethod === "cash") {
+      alert("Vui lòng nhập số tiền lớn hơn hoặc bằng hóa đơn.");
+      return;
+    }
+
     setShowConfirmModal(true);
-    dispatch(setTotalOrder(total)); 
+    dispatch(setTotalOrder(total));
   };
+
 
 
   const cartProductIds = new Set(cart.map((item) => item.id));
@@ -158,7 +164,7 @@ const CreateOrder = () => {
               <div className="flex items-center mb-2">
                 <span>Thêm vào giỏ hàng</span>
                 <select
-                  value={selectedProduct} 
+                  value={selectedProduct}
                   onChange={(e) => {
                     const product = JSON.parse(e.target.value);
                     handleAddProduct(product);
@@ -167,7 +173,7 @@ const CreateOrder = () => {
                 >
                   <option value="">{selectedProduct}</option>
                   {mockProducts
-                    .filter((product) => !cartProductIds.has(product.id))  
+                    .filter((product) => !cartProductIds.has(product.id))
                     .map((product) => (
                       <option key={product.id} value={JSON.stringify(product)}>
                         {product.name} - ${product.price}
