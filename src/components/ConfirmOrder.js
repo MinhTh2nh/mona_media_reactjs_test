@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmOrder } from "../slices/OrderSlice";
+import { useState, useEffect } from "react";
 
 const ConfirmOrder = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -8,17 +9,20 @@ const ConfirmOrder = ({ onClose }) => {
     (state) => state.order
   );
 
-  const handleConfirm = () => {
-    dispatch(confirmOrder());
+  const handleConfirm = async () => {
+    await dispatch(confirmOrder());
     alert("Bạn đã thanh toán thành công");
     onClose();
-    console.log("Order history after confirmation:", orderHistory.map((order, index) => ({
-      index: index + 1,
-      customerInfo: order.customerInfo,
-      total: order.total,
-      paymentMethod: order.paymentMethod,
-      date: order.date,
-    })));
+    console.log(
+      "Order history after confirmation:",
+      orderHistory.map((order, index) => ({
+        index: index + 1,
+        customerInfo: order.customerInfo,
+        total: order.total,
+        paymentMethod: order.paymentMethod,
+        date: order.date,
+      }))
+    );
   };
 
   return (

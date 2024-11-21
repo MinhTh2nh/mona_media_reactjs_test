@@ -47,6 +47,9 @@ const orderSlice = createSlice({
         paymentMethod: state.paymentMethod,
         date: new Date().toISOString(),
       };
+      console.log(
+        "Order  confirmation:", order
+      );
       state.orderHistory.push(order);
       state.cart = [];
       state.customerInfo = { name: "", email: "", phoneNumber: "" };
